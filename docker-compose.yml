@@ -11,7 +11,7 @@ services:
     volumes:
       - my_dbdata:/var/lib/postgresql/data
   user_api:
-    build: ../ls_user_api
+    image: "andreyshtamburg/learning_source:ls_user_api"
     container_name: "ls_user_api"
     ports:
       - "5533:5533"
@@ -22,7 +22,7 @@ services:
     depends_on:
       - db
   ls_api:
-    build: ../learning_source_be
+    image: "andreyshtamburg/learning_source:ls_source_api"
     container_name: "ls_source_api"
     ports:
       - "4433:4433"
