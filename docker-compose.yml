@@ -5,10 +5,32 @@ services:
     environment:
       POSTGRES_USER: source
       POSTGRES_PASSWORD: secret
-    container_name: "pgdb"
+    container_name: "db"
     ports:
       - "5432:5432"
     volumes:
       - my_dbdata:/var/lib/postgresql/data
+  user_api:
+    build: ../ls_user_api
+    container_name: "ls_user_api"
+    ports:
+      - "5533:5533"
+    environment:
+      POSTGRES_DB: source
+      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: source
+    depends_on:
+      - db
+  ls_api:
+    build: ../learning_source_be
+    container_name: "ls_source_api"
+    ports:
+      - "4433:4433"
+    environment:
+      POSTGRES_DB: source
+      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: source
+    depends_on:
+      - user_api
 volumes:
   my_dbdata:
